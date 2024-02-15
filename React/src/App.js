@@ -1,10 +1,19 @@
-import './App.css';
+import Navbar from './Navbar';
+import Home from './Home';
 
 function App() {
+
+  const title = 'Welcome to HAMAS UNIVERSITY';
+
+
   return (
     <div className="App">
-      <div className="content"></div>
-        <h1>App Component</h1>
+      <Navbar></Navbar>
+      <div className="content">
+        <Home></Home>
+
+      </div>
+      
     </div>
   );
 }
