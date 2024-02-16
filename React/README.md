@@ -1,4 +1,4 @@
-In the first terminal
+---In the first terminal
 
 $ cd client
 
@@ -6,7 +6,7 @@ $ npm install (to install client-side dependencies)
 
 $ npm run dev(to start the client)
 
-In the second terminal
+---In the second terminal
 
 $ cd server
 
