@@ -35,6 +35,39 @@
   align-items: center;
   gap: 1.5rem;
 }
+.overflow-hidden {
+  overflow: hidden;
+  object-fit: contain;
+}
+
+.imageDiv{
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+}
+
+.imageDiv img{
+  
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.footerDiv{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
 
 html {
   font-size: 90%;

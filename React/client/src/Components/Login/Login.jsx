@@ -51,7 +51,7 @@ const Login = () => {
 
     return (
         <div className="loginPage flex">
-            <div className="container flex">
+            <div className="container flex overflow-hidden">
 
                 <div className="imageDiv">
                     <img src={image} alt="description" />

@@ -34,7 +34,7 @@ const Register = () => {
 
     return (
         <div className="registerPage flex">
-            <div className="container flex">
+            <div className="container flex overflow-hidden">
 
                 <div className="imageDiv">
                     <img src={video} alt="Image description" style={{ maxWidth: "100%" }} />
