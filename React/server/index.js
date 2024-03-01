@@ -52,16 +52,42 @@ app.post('/login', (req, res) => {
     const SQL = 'SELECT * FROM users WHERE username = ? && password = ?'
     const Values = [sentloginUserName, sentLoginPassword]
 
-        // Query to execute the sql statement stated above
-        db.query(SQL, Values, (err, results) => {
-            if(err) {
-                res.send({error: err})
-            }
-            if(results.length > 0) {
-                res.send(results)
-            }
-            else{
-                res.send({message: `Credentials Don't match!`})
-            }
-        })
+    // Query to execute the sql statement stated above
+    db.query(SQL, Values, (err, results) => {
+        if (err) {
+            res.send({ error: err })
+        }
+        if (results.length > 0) {
+            res.send(results)
+        }
+        else {
+            res.send({ message: `Credentials Don't match!` })
+        }
+    })
+})
+
+app.post('/donate-blood', (req, res) => {
+    // const sentloginUserName = req.body.LoginUserName
+    // const sentLoginPassword = req.body.LoginPassword
+    const requestFullName = req.body.fullName
+    const requestBloodGroup = req.body.bloodGroup
+    const requestStudentID = req.body.studentID
+    const requestContactNo = req.body.contactNo
+    const requestEmail = req.body.emailAddress
+    const requestHouseAddress = req.body.address
+
+    // Lets create SQL statement to insert the donors to the Database table Donation
+    const SQL = 'INSERT INTO donation (name, blood_group, student_id, contact_no, email_address, house_address) VALUES (?,?,?,?,?,?)'
+    const Values = [requestFullName, requestBloodGroup, requestStudentID, requestContactNo, requestEmail, requestHouseAddress]
+
+    // Query to execute the sql statement stated above
+    db.query(SQL, Values, (err, results) => {
+        if (err) {
+            res.send(err)
+        }
+        else {
+            console.log(`Donor inserted successfully! ${results}`);
+            res.send({ message: 'Donor added!', code: 200 })
+        }
+    })
 })
