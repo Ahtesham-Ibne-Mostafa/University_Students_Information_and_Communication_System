@@ -1,39 +1,47 @@
-import '../../App.css'
-import Sidebar from './SideBarSection/Sidebar'
-import DashBoardSections from './DashBoardSections'
-import Body from '../Dashboard/BodySection/Body'
-import BloodDonation from './BloodDonationSection/BloodDonation'
-import { useState } from 'react'
+import { useState } from "react";
+import "../../App.css";
+import Body from "../Dashboard/BodySection/Body";
+import BloodDonation from "./BloodDonationSection/BloodDonation";
+import SearchDonar from "./BloodDonationSection/SearchDonar";
+import DashBoardSections from "./DashBoardSections";
+import Sidebar from "./SideBarSection/Sidebar";
 
 interface Props {
-    section: DashBoardSections
+  section: DashBoardSections;
 }
 const Dashboard = () => {
-    const [selectedSection, setSelectedSection] = useState(DashBoardSections.Department);
+  const [selectedSection, setSelectedSection] = useState(
+    DashBoardSections.Department
+  );
 
-    return (
-        <div className="dashboard flex">
-            <div className="dashboardContainer flex">
-                <Sidebar sideBarOnClicked={(section) => {
-                    console.log(`Section is ${section}`)
-                    setSelectedSection(section)
-                }} selectedSection={selectedSection} />
+  return (
+    <div className="dashboard flex">
+      <div className="dashboardContainer flex">
+        <Sidebar
+          sideBarOnClicked={(section) => {
+            console.log(`Section is ${section}`);
+            setSelectedSection(section);
+          }}
+          selectedSection={selectedSection}
+        />
 
-                <RenderBody section={selectedSection} />
-            </div>
-        </div>
-    );
-}
+        <RenderBody section={selectedSection} />
+      </div>
+    </div>
+  );
+};
 
 function RenderBody({ section }: Props) {
-    switch (section) {
-        case DashBoardSections.Department:
-            return <Body />;
-        case DashBoardSections.BloodDonation:
-            return <BloodDonation />;
-        default:
-            return <Body />;
-    }
+  switch (section) {
+    case DashBoardSections.Department:
+      return <Body />;
+    case DashBoardSections.BloodDonation:
+      return <BloodDonation />;
+    case DashBoardSections.SearchDonar:
+      return <SearchDonar />;
+    default:
+      return <Body />;
+  }
 }
 
-export default Dashboard
+export default Dashboard;
