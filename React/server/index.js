@@ -111,3 +111,39 @@ app.get("/donors", (req, res) => {
     }
   });
 });
+
+// Route to add or change seat limit for a course
+app.post("/courses/seatLimit", (req, res) => {
+  const { courseCode, newSeatLimit } = req.body;
+
+  // SQL statement to update the seat limit for a course based on its course code
+  const SQL = "UPDATE courses SET seat_limit = ? WHERE course_code = ?";
+  const values = [newSeatLimit, courseCode];
+
+  // Execute the SQL query
+  db.query(SQL, values, (err, results) => {
+    if (err) {
+      console.error("Error updating seat limit:", err);
+      res.status(500).send({ error: "Internal Server Error" });
+    } else {
+      res.status(200).send({ message: "Seat limit updated successfully" });
+    }
+  });
+});
+
+// Route to get all courses with their seat limits
+app.get("/courses", (req, res) => {
+  // SQL statement to select all courses with their seat limits
+  const SQL =
+    "SELECT courseCode, courseName, department, seatLimit FROM courses";
+
+  // Execute the SQL query
+  db.query(SQL, (err, results) => {
+    if (err) {
+      console.error("Error fetching courses:", err);
+      res.status(500).send({ error: "Internal Server Error" });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});

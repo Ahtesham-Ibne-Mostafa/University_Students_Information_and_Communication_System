@@ -2,25 +2,22 @@ import axios from "axios";
 import React, { useState } from "react";
 
 const AddUpdateSeatLimit = () => {
+  // State variables to store course code and new seat limit
   const [courseCode, setCourseCode] = useState("");
-  const [seatLimit, setSeatLimit] = useState("");
+  const [newSeatLimit, setNewSeatLimit] = useState("");
 
-  const handleAddSeatLimit = () => {
+  // Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Make POST request to server to add or change seat limit for the course
     axios
-      .post("api/courses/addSeatLimit", { courseCode, seatLimit })
+      .post("/courses/seatLimit", { courseCode, newSeatLimit })
       .then((response) => {
         console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error adding seat limit:", error);
-      });
-  };
-
-  const handleUpdateSeatLimit = () => {
-    axios
-      .put(`api/courses/updateSeatLimit/${courseCode}`, { seatLimit })
-      .then((response) => {
-        console.log(response.data);
+        // Clear form fields after successful submission
+        setCourseCode("");
+        setNewSeatLimit("");
       })
       .catch((error) => {
         console.error("Error updating seat limit:", error);
@@ -29,20 +26,28 @@ const AddUpdateSeatLimit = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Course ID"
-        value={courseCode}
-        onChange={(e) => setCourseCode(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="New Seat Limit"
-        value={seatLimit}
-        onChange={(e) => setSeatLimit(e.target.value)}
-      />
-      <button onClick={handleAddSeatLimit}>Add Seat Limit</button>
-      <button onClick={handleUpdateSeatLimit}>Update Seat Limit</button>
+      <h2>Add or Change Seat Limit for Course</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Course Code:
+          <input
+            type="text"
+            value={courseCode}
+            onChange={(e) => setCourseCode(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          New Seat Limit:
+          <input
+            type="number"
+            value={newSeatLimit}
+            onChange={(e) => setNewSeatLimit(e.target.value)}
+            required
+          />
+        </label>
+        <button type="submit">Update</button>
+      </form>
     </div>
   );
 };
