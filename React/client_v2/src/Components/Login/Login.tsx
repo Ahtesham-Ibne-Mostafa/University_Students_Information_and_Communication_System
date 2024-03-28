@@ -18,6 +18,7 @@ const Login = () => {
     const [loginStatus, setLoginStatus] = useState('');
     const [statusHolder, setStatusHolder] = useState('message');
 
+
     const loginUser = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         Axios.post('http://localhost:3002/login', {
@@ -30,12 +31,37 @@ const Login = () => {
                 setLoginStatus(`Credentials Don't Exist!`)
             }
             else {
-                navigateTo('/dashboard')
+                console.log(response.data[0]);
+                const responseData = response.data[0];
+                if (responseData) {
+
+                    const { id, username, email } = responseData;
+                    const userInfo = {
+                        id, username, email
+                    }
+
+                    // Store user info session
+
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                    navigateTo('/dashboard')
+                } else {
+                    navigateTo('/')
+                    setLoginStatus(`Credentials Don't Exist!`)
+                }
+
             }
         })
     }
 
     useEffect(() => {
+
+        const userInfoString = localStorage.getItem('userInfo');
+
+        // if user exists in the session navigate to the dashboard
+        if (userInfoString) {
+            navigateTo('/dashboard')
+        }
+
         if (loginStatus !== '') {
             setStatusHolder('showMessage')
             setTimeout(() => {

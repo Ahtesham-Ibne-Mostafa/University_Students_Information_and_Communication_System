@@ -1,4 +1,3 @@
-import React from 'react'
 import './body.css'
 import Top from './TopSection/Top'
 import Listing from './ListingSection/Listing'

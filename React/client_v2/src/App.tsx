@@ -7,6 +7,8 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
+import AddCourseComponent from './Components/Dashboard/CourseManagementSection/AddCourseComponent';
+import EditCourseComponent from './Components/Dashboard/CourseManagementSection/EditCourseComponent';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,15 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <div><Dashboard /></div>
+  },
+  {
+    path: '/dashboard/add-course',
+    element: <div><AddCourseComponent /></div>
+  },
+
+  {
+    path: '/dashboard/edit-course',
+    element: <div><EditCourseComponent /></div>
   }
 ])
 
