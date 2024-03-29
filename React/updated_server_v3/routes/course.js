@@ -124,4 +124,43 @@ router.post("/seatLimit", (req, res) => {
 //   });
 // });
 
+router.get("/enroll", (req, res) => {
+
+  const { userID } = req.body;
+
+  // check whether course exist or not
+
+  const findEnrollment = "SELECT * FROM enrollment WHERE user_id = ?";
+  const value = [userID];
+
+  db.query(findEnrollment, value, (err, results) => {
+    if (err) {
+      // If there's an error, send the error as the response
+      res.status(500).send(err);
+    } else {
+      // If successful, send the results as JSON response
+      res.status(200).json(results);
+    }
+  });
+});
+
+router.post("/enroll", (req, res) => {
+  const { userID, courseID } = req.body;
+
+  console.log(`USER ID IS ${userID} , ${courseID}`);
+  // SQL statement to update the seat limit for a course based on its course code
+  const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
+  const values = [courseID, userID];
+
+  // Execute the SQL query
+  db.query(insertSqlCommand, values, (err, results) => {
+    if (err) {
+      console.error("Error enrolling student:", err);
+      res.status(500).send({ error: "Internal Server Error" });
+    } else {
+      res.status(200).send({ message: "Enrolled successfully" });
+    }
+  });
+});
+
 module.exports = router
