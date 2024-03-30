@@ -19,3 +19,9 @@ $ npm start (to start the server)
 ![Main Dashboard was made by Ahtesham Ibne Mostafa](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/3.png)Main Dashboard was made by Ahtesham Ibne Mostafa
 ![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/4.png)Server Database was made by Faiza Binte Arif
 
+![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/5.png)
+![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/6.png)
+![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/7.png)
+![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/8.png)
+![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/9.png)
+
