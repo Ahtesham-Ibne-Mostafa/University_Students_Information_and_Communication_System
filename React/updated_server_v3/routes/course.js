@@ -126,8 +126,9 @@ router.post("/seatLimit", (req, res) => {
 
 router.get("/enroll", (req, res) => {
 
-  const { userID } = req.body;
+  const userID = req.query.userID;
 
+  console.log(`ENROLL ${userID}`);
   // check whether course exist or not
 
   const findEnrollment = "SELECT * FROM enrollment WHERE user_id = ?";
@@ -147,20 +148,111 @@ router.get("/enroll", (req, res) => {
 router.post("/enroll", (req, res) => {
   const { userID, courseID } = req.body;
 
-  console.log(`USER ID IS ${userID} , ${courseID}`);
-  // SQL statement to update the seat limit for a course based on its course code
-  const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
+  const findEnrolledCourse = "SELECT * FROM enrollment WHERE course_id = ? && user_id = ?";
+
   const values = [courseID, userID];
 
-  // Execute the SQL query
-  db.query(insertSqlCommand, values, (err, results) => {
+  db.query(findEnrolledCourse, values, (err, results) => {
     if (err) {
-      console.error("Error enrolling student:", err);
+      // If there's an error, send the error as the response
+      console.error("Error finding enrolled course for the student:", err);
       res.status(500).send({ error: "Internal Server Error" });
     } else {
-      res.status(200).send({ message: "Enrolled successfully" });
+      // If successful, check length count. If length count > 0 means user is already enrolled
+      // So it will not add the data in enrollment table
+
+      if (results.length > 0) {
+        // Exists
+        res.status(400).send({
+          message: "You are already enrolled"
+        });
+      } else {
+
+        const enrolledSeatsSql = "SELECT enrolledSeats, seatLimit FROM courses WHERE id = ?"
+        const enrolledCourseIDValue = [courseID]
+
+        db.query(enrolledSeatsSql, enrolledCourseIDValue, (err, results) => {
+          if (err) {
+            // If there's an error, send the error as the response
+            console.error("Error finding enrolled course for the student:", err);
+            res.status(500).send({ error: "Internal Server Error" });
+          } else {
+            // // If successful, send the results as JSON response
+            // res.status(200).json(results);
+            const currentCourse = results[0];
+            if (currentCourse) {
+              if (currentCourse.seatLimit > currentCourse.enrolledSeats) {
+                // can enroll
+                const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
+
+                // Execute the SQL query
+                db.query(insertSqlCommand, values, (err, results) => {
+                  if (err) {
+                    console.error("Error enrolling student:", err);
+                    res.status(500).send({ error: "Internal Server Error" });
+                  } else {
+                    // TODO: If enroll is successful then increase enrolledSeats
+                    const updateCommand = "UPDATE courses SET enrolledSeats = ? ";
+                    const updatedSeat = currentCourse.enrolledSeats + 1;
+                    const updatedSeatValue = [updatedSeat];
+
+                    db.query(updateCommand, updatedSeatValue, (err, results) => {
+
+                      if (err) {
+                        console.error("Error enrolling student:", err);
+                        res.status(500).send({ error: "Internal Server Error" });
+                      } else {
+                        res.status(200).send({ message: "Enrolled successfully" });
+                      }
+                    });
+                    // res.status(200).send({ message: "Enrolled successfully" });
+                  }
+                });
+              } else {
+                // cannot enroll. Seat limit exceeded
+                res.status(400).send({
+                  message: "Seat limit exceeded"
+                });
+              }
+
+            } else {
+              console.error("Error finding enrolled course for the student:", currentCourse);
+              res.status(500).send({ error: "Internal Server Error" });
+            }
+          }
+        });
+
+        // TODO: Check whether seat exists in the courses table
+        // const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
+        //
+        // // Execute the SQL query
+        // db.query(insertSqlCommand, values, (err, results) => {
+        //   if (err) {
+        //     console.error("Error enrolling student:", err);
+        //     res.status(500).send({ error: "Internal Server Error" });
+        //   } else {
+        //     // TODO: If enroll is successful then reduce seatCount
+        //     res.status(200).send({ message: "Enrolled successfully" });
+        //   }
+        // });
+      }
     }
   });
+
+  // console.log(`USER ID IS ${userID} , ${courseID}`);
+  // // SQL statement to update the seat limit for a course based on its course code
+  // const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
+  // const values = [courseID, userID];
+  //
+  // // Execute the SQL query
+  // db.query(insertSqlCommand, values, (err, results) => {
+  //   if (err) {
+  //     console.error("Error enrolling student:", err);
+  //     res.status(500).send({ error: "Internal Server Error" });
+  //   } else {
+  //     res.status(200).send({ message: "Enrolled successfully" });
+  //   }
+  // });
 });
 
 module.exports = router

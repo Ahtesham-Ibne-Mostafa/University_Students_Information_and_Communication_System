@@ -12,8 +12,18 @@ interface Course {
   enrolledSeats: number;
 }
 
+
+interface EnrolledCourse {
+  id: number;
+  course_id: number;
+  user_id: number;
+}
+
+
+
 interface Props {
   isAdmin: boolean;
+  userID: number;
 }
 
 enum ViewDataStatus {
@@ -22,10 +32,11 @@ enum ViewDataStatus {
   RemovedSuccessfully
 }
 
-function ViewCoursesComponent({ isAdmin }: Props) {
+function ViewCoursesComponent({ isAdmin, userID }: Props) {
 
 
   const [courses, setCourses] = useState<Course[]>([]);
+  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
   const [searchCourses, setSearchCourses] = useState("");
   const [removedCourseStatus, setRemovedCourseStatus] = useState(ViewDataStatus.Initial);
 
@@ -42,20 +53,44 @@ function ViewCoursesComponent({ isAdmin }: Props) {
     try {
       const response = await axios.get<Course[]>("http://localhost:3002/course");
       setCourses(response.data);
+      const enrolledResponse = await axios.get<EnrolledCourse[]>("http://localhost:3002/course/enroll", {
+        params: {
+          userID
+        }
+      });
+      setEnrolledCourses(enrolledResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  const enrollCourseTap = (id: number) => {
+    console.log(`BUTTON TAPPED ${id}`);
+    axios.post("http://localhost:3002/course/enroll", {
+      "courseID": id,
+      "userID": userID
+    }).then((response) => {
+      console.log("RESPONSE IS %o", response);
+      fetchData();
+    })
+  }
+
+  const doesCourseIDExists = (id: number) => {
+    const courseFound = enrolledCourses.find((enrolledCourse) => enrolledCourse.course_id == id);
+    if (courseFound) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const removeCourse = (id: number) => {
     console.log(`Number tapped ${id}`);
     axios.delete("http://localhost:3002/course", { data: { id } }).then((response) => {
 
       if (response.status === 200) {
-        console.log("Yeee");
         setRemovedCourseStatus(ViewDataStatus.RemovedSuccessfully);
       } else {
-        console.log("NOOOOO");
         setRemovedCourseStatus(ViewDataStatus.FailedToRemove);
       }
     })
@@ -70,7 +105,7 @@ function ViewCoursesComponent({ isAdmin }: Props) {
     setSearchCourses(event.target.value);
   };
 
-  const filteredDonors = courses.filter((course) =>
+  const filteredCourseList = courses.filter((course) =>
     course.courseCode.toLowerCase().includes(searchCourses.toLowerCase())
   );
 
@@ -92,7 +127,7 @@ function ViewCoursesComponent({ isAdmin }: Props) {
         />
       </div>
       <div className="row">
-        {filteredDonors.map((course) => (
+        {filteredCourseList.map((course) => (
           <div key={course.id} className="col-md-4 mb-3">
             <div className="card">
               <div className="card-body">
@@ -116,6 +151,21 @@ function ViewCoursesComponent({ isAdmin }: Props) {
                     navigateTo("/dashboard/edit-course", { state: course })
                   }>
                     <span>Edit course</span>
+                    <AiOutlineSwapRight className="icon" />
+                  </button>
+                }
+                {
+                  doesCourseIDExists(course.id) &&
+                  <p className="card-text"> You are already enrolled in this course</p>
+                }
+                {
+                  // If enrolledCourse does not contain the currentCourse id or if the enrolled course length is 0
+                  // means the user can enroll in the course
+                  !doesCourseIDExists(course.id) &&
+                  <button type='submit' className='btn flex' onClick={() =>
+                    enrollCourseTap(course.id)
+                  }>
+                    <span>Enroll this course</span>
                     <AiOutlineSwapRight className="icon" />
                   </button>
                 }

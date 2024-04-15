@@ -9,63 +9,65 @@ import CourseManagement from "./CourseManagementSection/CourseManagement";
 import UserInfo from "./UserInfo";
 
 interface Props {
-    section: DashBoardSections;
-    isAdmin: boolean;
+  section: DashBoardSections;
+  isAdmin: boolean;
+  userID: number;
+
 }
 
 
 const Dashboard = () => {
-    const [selectedSection, setSelectedSection] = useState(
-        DashBoardSections.Department
-    );
-    const userInfoString = localStorage.getItem('userInfo');
+  const [selectedSection, setSelectedSection] = useState(
+    DashBoardSections.Department
+  );
+  const userInfoString = localStorage.getItem('userInfo');
 
-    var userInfo: UserInfo;
+  var userInfo: UserInfo;
 
-    if (userInfoString) {
+  if (userInfoString) {
 
-        console.log(`USERINFOString IS ${userInfoString}`);
-        userInfo = JSON.parse(userInfoString);
-        console.log(`USERINFO IS ${userInfo.id}`);
-    } else {
-        console.log("FAILED TO RETRIEVE");
-
-        return (
-            <h1> You are not logged in </h1>
-        );
-    }
+    console.log(`USERINFOString IS ${userInfoString}`);
+    userInfo = JSON.parse(userInfoString);
+    console.log(`USERINFO IS ${userInfo.id}`);
+  } else {
+    console.log("FAILED TO RETRIEVE");
 
     return (
-        <div className="dashboard flex">
-            <div className="dashboardContainer flex">
-                <Sidebar
-                    sideBarOnClicked={(section) => {
-                        console.log(`Section is ${section}`);
-                        setSelectedSection(section);
-                    }}
-                    selectedSection={selectedSection}
-                />
-
-                <RenderBody section={selectedSection} isAdmin={userInfo.username == 'admin'} />
-            </div>
-        </div>
+      <h1> You are not logged in </h1>
     );
+  }
+
+  return (
+    <div className="dashboard flex">
+      <div className="dashboardContainer flex">
+        <Sidebar
+          sideBarOnClicked={(section) => {
+            console.log(`Section is ${section}`);
+            setSelectedSection(section);
+          }}
+          selectedSection={selectedSection}
+        />
+
+        <RenderBody section={selectedSection} userID={userInfo.id} isAdmin={userInfo.username == 'admin'} />
+      </div>
+    </div>
+  );
 };
 
-function RenderBody({ section, isAdmin }: Props) {
-    switch (section) {
-        case DashBoardSections.Department:
-            return <Body />;
-        case DashBoardSections.BloodDonation:
-            return <BloodDonation />;
-        case DashBoardSections.SearchDonar:
-            return <SearchDonar />;
+function RenderBody({ section, isAdmin, userID }: Props) {
+  switch (section) {
+    case DashBoardSections.Department:
+      return <Body />;
+    case DashBoardSections.BloodDonation:
+      return <BloodDonation />;
+    case DashBoardSections.SearchDonar:
+      return <SearchDonar />;
 
-        case DashBoardSections.CourseManagement:
-            return <CourseManagement isAdmin={isAdmin}/>;
-        default:
-            return <Body />;
-    }
+    case DashBoardSections.CourseManagement:
+      return <CourseManagement isAdmin={isAdmin} userID={userID} />;
+    default:
+      return <Body />;
+  }
 }
 
 export default Dashboard;
