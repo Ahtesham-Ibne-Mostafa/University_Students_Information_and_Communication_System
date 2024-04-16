@@ -40,7 +40,7 @@ const SearchDonar = () => {
   );
 
   return (
-    <div className="container">
+    <div className="mainContent">
       <div className="mb-3">
         <input
           type="text"

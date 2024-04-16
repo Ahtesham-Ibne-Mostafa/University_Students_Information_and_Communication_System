@@ -7,6 +7,7 @@ import DashBoardSections from "./DashBoardSections";
 import Sidebar from "./SideBarSection/Sidebar";
 import CourseManagement from "./CourseManagementSection/CourseManagement";
 import UserInfo from "./UserInfo";
+import StudentForumComponent from "./CourseManagementSection/StudentForumComponent";
 
 interface Props {
   section: DashBoardSections;
@@ -65,6 +66,8 @@ function RenderBody({ section, isAdmin, userID }: Props) {
 
     case DashBoardSections.CourseManagement:
       return <CourseManagement isAdmin={isAdmin} userID={userID} />;
+    case DashBoardSections.StudentForum:
+      return <StudentForumComponent />
     default:
       return <Body />;
   }

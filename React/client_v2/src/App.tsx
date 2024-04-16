@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import AddCourseComponent from './Components/Dashboard/CourseManagementSection/AddCourseComponent';
 import EditCourseComponent from './Components/Dashboard/CourseManagementSection/EditCourseComponent';
+import AddForumComponent from './Components/Dashboard/CourseManagementSection/AddForumComponent';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: '/dashboard/edit-course',
     element: <div><EditCourseComponent /></div>
+  },
+  {
+    path: '/dashboard/add-forum',
+    element: <div><AddForumComponent /></div>
   }
 ])
 

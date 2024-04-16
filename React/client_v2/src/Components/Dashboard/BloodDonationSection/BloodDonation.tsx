@@ -66,7 +66,7 @@ function BloodDonation() {
     }
 
     return (
-        <div className="px-4">
+        <div className="px-4 mainContent">
             <h1>
                 Blood donation
             </h1>

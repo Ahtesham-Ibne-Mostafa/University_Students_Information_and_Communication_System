@@ -50,7 +50,7 @@ function CourseManagement({ isAdmin, userID }: Props) {
   //     </div >
   // );
   return (
-    <div className="container">
+    <div className="mainContent">
 
       <div className="row">
 

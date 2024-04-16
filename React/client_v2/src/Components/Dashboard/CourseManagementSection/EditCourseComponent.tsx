@@ -1,4 +1,5 @@
 // import axios from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiOutlineSwapRight } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
@@ -20,46 +21,42 @@ function EditCourseComponent() {
   const [courseName, setCourseName] = useState(data.courseName);
   const [department, setDepartment] = useState(data.department);
   const [seatLimit, setSeatLimit] = useState(data.seatLimit);
+  const id = data.id;
   // Whether course edited successfully or not
   const [courseDataStatus, setCourseDataStatus] = useState(CourseDataStatus.InitialStatus);
 
 
-  console.log("COURSE IS %o",data);
+  console.log("COURSE IS %o", data);
 
   const editClicked = () => {
-    // if (courseName === '' || department === '' || seatLimit === 0 || courseCode === '') {
-    //   console.log(`INFORMING ${courseName} ${department} ${seatLimit} ${courseCode}`);
-    //   setCourseDataStatus(CourseDataStatus.Empty);
-    // } else {
-    //   console.log(`INFO ${courseCode} ${courseName} ${department} ${seatLimit}`);
-    //   axios.post('http://localhost:3002/course', {
-    //     courseName, courseCode, department, seatLimit
-    //   }).then((response) => {
-    //     console.log(`RESPONSE %o`, response);
-    //     if (response.status === 200) {
-    //       if (response.data.error) {
-    //         console.log("Course already exist");
-    //         setCourseDataStatus(CourseDataStatus.AlreadyExist);
-    //       } else {
-    //         console.log("Edited successfully");
-    //         setCourseDataStatus(CourseDataStatus.Added);
-    //       }
-    //     } else {
-    //       console.log("Failed");
-    //
-    //       setCourseDataStatus(CourseDataStatus.Failed);
-    //     }
-    //   })
-    // }
+    if (courseName === '' || department === '' || seatLimit === 0 || courseCode === '') {
+      console.log(`INFORMING ${courseName} ${department} ${seatLimit} ${courseCode}`);
+      setCourseDataStatus(CourseDataStatus.Empty);
+    } else {
+      console.log(`INFO ${courseCode} ${courseName} ${department} ${seatLimit}`);
+      axios.put('http://localhost:3002/course', {
+        courseName, courseCode, department, seatLimit, id
+      }).then((response) => {
+        console.log(`RESPONSE %o`, response);
+        if (response.status === 200) {
+          console.log("Edited successfully");
+          setCourseDataStatus(CourseDataStatus.Added);
+        } else {
+          console.log("Failed");
+
+          setCourseDataStatus(CourseDataStatus.Failed);
+        }
+        // Go back after the action is done
+        history.back();
+      })
+    }
   }
 
   const showAlert = () => {
     if (courseDataStatus == CourseDataStatus.Added) {
-      alert('Course added successfully');
+      alert('Course edited successfully');
     } else if (courseDataStatus == CourseDataStatus.Failed) {
       alert('Something went wrong');
-    } else if (courseDataStatus == CourseDataStatus.AlreadyExist) {
-      alert('Course already exist');
     } else if (courseDataStatus == CourseDataStatus.Empty) {
       alert('Fillup the required fields');
     }

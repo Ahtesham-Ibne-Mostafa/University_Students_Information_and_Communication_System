@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require('./routes/auth')
 const courseRoutes = require('./routes/course')
 const donateRoutes = require('./routes/donate')
+const forumRoutes = require('./routes/forums')
 
 const app = express()
 app.use(express.json());
@@ -13,6 +14,7 @@ const PORT = 3002
 
 app.use(authRoutes)
 app.use('/course', courseRoutes)
+app.use('/forum', forumRoutes)
 app.use(donateRoutes)
 
 app.listen(PORT, () => {

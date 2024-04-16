@@ -52,6 +52,25 @@ router.post("/", (req, res) => {
   });
 });
 
+
+// UPDATE 
+router.put("/", (req, res) => {
+  const { id, courseCode, courseName, department, seatLimit } = req.body;
+
+  const SQL = "UPDATE courses SET courseCode=?,courseName=?,department=?, seatLimit=? WHERE id = ?";
+  const values = [courseCode, courseName, department, seatLimit, id];
+
+  // Execute the SQL query
+  db.query(SQL, values, (err, results) => {
+    if (err) {
+      console.error("Error updating seat limit:", err);
+      res.status(500).send({ error: "Internal Server Error" });
+    } else {
+      res.status(200).send({ message: "Data updated successfully" });
+    }
+  });
+})
+
 router.get("/", (req, res) => {
 
   const SQL = "SELECT * FROM courses";
@@ -238,21 +257,6 @@ router.post("/enroll", (req, res) => {
       }
     }
   });
-
-  // console.log(`USER ID IS ${userID} , ${courseID}`);
-  // // SQL statement to update the seat limit for a course based on its course code
-  // const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
-  // const values = [courseID, userID];
-  //
-  // // Execute the SQL query
-  // db.query(insertSqlCommand, values, (err, results) => {
-  //   if (err) {
-  //     console.error("Error enrolling student:", err);
-  //     res.status(500).send({ error: "Internal Server Error" });
-  //   } else {
-  //     res.status(200).send({ message: "Enrolled successfully" });
-  //   }
-  // });
 });
 
 module.exports = router
