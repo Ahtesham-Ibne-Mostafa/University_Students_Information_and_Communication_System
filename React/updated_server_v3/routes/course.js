@@ -94,11 +94,11 @@ router.delete("/", (req, res) => {
   console.log(`Remove course ${id}`);
 
 
-  const SQL = "DELETE FROM courses WHERE id = ?";
+  const SQL = "DELETE enrollment, courses FROM enrollment LEFT JOIN courses ON enrollment.course_id = courses.id WHERE enrollment.course_id = ?";
   const values = [id];
   db.query(SQL, values, (err, _results) => {
     if (err) {
-      // console.error("Error removing courses", err);
+      console.error("Error removing courses", err);
       res.status(500).send({ error: "Internal Server Error" });
     } else {
       res.status(200).send({ message: "Course removed successfully" });
