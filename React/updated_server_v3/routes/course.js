@@ -1,110 +1,112 @@
 const express = require("express")
 const router = express.Router();
 const db = require('../models/db_connection')
+const courseController = require("../controllers/course_controller")
 
 // Add course
-router.post("/", (req, res) => {
-
-  const { courseCode, courseName, department, seatLimit } = req.body;
-
-  // check whether course exist or not
-
-  const findCourseCommand = "SELECT * FROM courses WHERE courseCode = ?";
-  const value = [courseCode, courseName, department, seatLimit, 0];
-
-  console.log(value);
-  db.query(findCourseCommand, value, (err, results) => {
-    if (err) {
-      console.log(`Error with db execution ${err}`);
-      res.status(500).send({
-        "message": "Error occurred",
-        "error": true,
-      });
-    }
-    if (results.length > 0) {
-      // exists 
-      res.status(200).send({
-        "message": "Course already exists",
-        "error": true,
-      });
-    } else {
-      // add course
-      const insertSqlCommand = "INSERT INTO courses (courseCode, courseName, department, seatLimit, enrolledSeats) VALUES (?,?,?,?,?)";
-      db.query(insertSqlCommand, value, (insertError, _insertResult) => {
-        if (insertError) {
-          console.log("Failed to insert data to db");
-          console.log(value);
-          res.status(500).send({
-            "message": "Failed to add data",
-            "error": true,
-          });
-        }
-        res.status(200).send(
-          {
-            "message": "Added successfully",
-            "error": false,
-          }
-        );
-      });
-
-
-    }
-  });
-});
+// router.post("/", (req, res) => {
+//
+//   const { courseCode, courseName, department, seatLimit } = req.body;
+//
+//   // check whether course exist or not
+//
+//   const findCourseCommand = "SELECT * FROM courses WHERE courseCode = ?";
+//   const value = [courseCode, courseName, department, seatLimit, 0];
+//
+//   console.log(value);
+//   db.query(findCourseCommand, value, (err, results) => {
+//     if (err) {
+//       console.log(`Error with db execution ${err}`);
+//       res.status(500).send({
+//         "message": "Error occurred",
+//         "error": true,
+//       });
+//     }
+//     if (results.length > 0) {
+//       // exists 
+//       res.status(200).send({
+//         "message": "Course already exists",
+//         "error": true,
+//       });
+//     } else {
+//       // add course
+//       const insertSqlCommand = "INSERT INTO courses (courseCode, courseName, department, seatLimit, enrolledSeats) VALUES (?,?,?,?,?)";
+//       db.query(insertSqlCommand, value, (insertError, _insertResult) => {
+//         if (insertError) {
+//           console.log("Failed to insert data to db");
+//           console.log(value);
+//           res.status(500).send({
+//             "message": "Failed to add data",
+//             "error": true,
+//           });
+//         }
+//         res.status(200).send(
+//           {
+//             "message": "Added successfully",
+//             "error": false,
+//           }
+//         );
+//       });
+//
+//
+//     }
+//   });
+// });
 
 
 // UPDATE 
-router.put("/", (req, res) => {
-  const { id, courseCode, courseName, department, seatLimit } = req.body;
+// router.put("/", (req, res) => {
+//   const { id, courseCode, courseName, department, seatLimit } = req.body;
+//
+//   const SQL = "UPDATE courses SET courseCode=?,courseName=?,department=?, seatLimit=? WHERE id = ?";
+//   const values = [courseCode, courseName, department, seatLimit, id];
+//
+//   // Execute the SQL query
+//   db.query(SQL, values, (err, results) => {
+//     if (err) {
+//       console.error("Error updating seat limit:", err);
+//       res.status(500).send({ error: "Internal Server Error" });
+//     } else {
+//       res.status(200).send({ message: "Data updated successfully" });
+//     }
+//   });
+// })
+//
 
-  const SQL = "UPDATE courses SET courseCode=?,courseName=?,department=?, seatLimit=? WHERE id = ?";
-  const values = [courseCode, courseName, department, seatLimit, id];
-
-  // Execute the SQL query
-  db.query(SQL, values, (err, results) => {
-    if (err) {
-      console.error("Error updating seat limit:", err);
-      res.status(500).send({ error: "Internal Server Error" });
-    } else {
-      res.status(200).send({ message: "Data updated successfully" });
-    }
-  });
-})
-
-router.get("/", (req, res) => {
-
-  const SQL = "SELECT * FROM courses";
-
-  // Execute the SQL query
-  db.query(SQL, (err, results) => {
-    if (err) {
-      // If there's an error, send the error as the response
-      res.status(500).send(err);
-    } else {
-      // If successful, send the results as JSON response
-      res.status(200).json(results);
-    }
-  });
-});
+// router.get("/", (req, res) => {
+//
+//   const SQL = "SELECT * FROM courses";
+//
+//   // Execute the SQL query
+//   db.query(SQL, (err, results) => {
+//     if (err) {
+//       // If there's an error, send the error as the response
+//       res.status(500).send(err);
+//     } else {
+//       // If successful, send the results as JSON response
+//       res.status(200).json(results);
+//     }
+//   });
+// });
 
 // delete course
-router.delete("/", (req, res) => {
-
-  const { id } = req.body;
-  console.log(`Remove course ${id}`);
-
-
-  const SQL = "DELETE enrollment, courses FROM enrollment LEFT JOIN courses ON enrollment.course_id = courses.id WHERE enrollment.course_id = ?";
-  const values = [id];
-  db.query(SQL, values, (err, _results) => {
-    if (err) {
-      console.error("Error removing courses", err);
-      res.status(500).send({ error: "Internal Server Error" });
-    } else {
-      res.status(200).send({ message: "Course removed successfully" });
-    }
-  });
-});
+// router.delete("/", (req, res) => {
+//
+//   const { id } = req.body;
+//   console.log(`Remove course ${id}`);
+//
+//
+//   const SQL = "DELETE enrollment, courses FROM enrollment LEFT JOIN courses ON enrollment.course_id = courses.id WHERE enrollment.course_id = ?";
+//   const values = [id];
+//   db.query(SQL, values, (err, _results) => {
+//     if (err) {
+//       console.error("Error removing courses", err);
+//       res.status(500).send({ error: "Internal Server Error" });
+//     } else {
+//       res.status(200).send({ message: "Course removed successfully" });
+//     }
+//   });
+// });
 
 
 // Route to add or change seat limit for a course
@@ -143,120 +145,127 @@ router.post("/seatLimit", (req, res) => {
 //   });
 // });
 
-router.get("/enroll", (req, res) => {
+// router.get("/enroll", (req, res) => {
+//
+//   const userID = req.query.userID;
+//
+//   console.log(`ENROLL ${userID}`);
+//   // check whether course exist or not
+//
+//   const findEnrollment = "SELECT * FROM enrollment WHERE user_id = ?";
+//   const value = [userID];
+//
+//   db.query(findEnrollment, value, (err, results) => {
+//     if (err) {
+//       // If there's an error, send the error as the response
+//       res.status(500).send(err);
+//     } else {
+//       // If successful, send the results as JSON response
+//       res.status(200).json(results);
+//     }
+//   });
+// });
 
-  const userID = req.query.userID;
+// router.post("/enroll", (req, res) => {
+//   const { userID, courseID } = req.body;
+//
+//   const findEnrolledCourse = "SELECT * FROM enrollment WHERE course_id = ? && user_id = ?";
+//
+//   const values = [courseID, userID];
+//
+//   db.query(findEnrolledCourse, values, (err, results) => {
+//     if (err) {
+//       // If there's an error, send the error as the response
+//       console.error("Error finding enrolled course for the student:", err);
+//       res.status(500).send({ error: "Internal Server Error" });
+//     } else {
+//       // If successful, check length count. If length count > 0 means user is already enrolled
+//       // So it will not add the data in enrollment table
+//
+//       if (results.length > 0) {
+//         // Exists
+//         res.status(400).send({
+//           message: "You are already enrolled"
+//         });
+//       } else {
+//
+//         const enrolledSeatsSql = "SELECT enrolledSeats, seatLimit FROM courses WHERE id = ?"
+//         const enrolledCourseIDValue = [courseID]
+//
+//         db.query(enrolledSeatsSql, enrolledCourseIDValue, (err, results) => {
+//           if (err) {
+//             // If there's an error, send the error as the response
+//             console.error("Error finding enrolled course for the student:", err);
+//             res.status(500).send({ error: "Internal Server Error" });
+//           } else {
+//             // // If successful, send the results as JSON response
+//             // res.status(200).json(results);
+//             const currentCourse = results[0];
+//             if (currentCourse) {
+//               if (currentCourse.seatLimit > currentCourse.enrolledSeats) {
+//                 // can enroll
+//                 const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
+//
+//                 // Execute the SQL query
+//                 db.query(insertSqlCommand, values, (err, results) => {
+//                   if (err) {
+//                     console.error("Error enrolling student:", err);
+//                     res.status(500).send({ error: "Internal Server Error" });
+//                   } else {
+//                     // If enroll is successful then increase enrolledSeats
+//                     const updateCommand = "UPDATE courses SET enrolledSeats = ? ";
+//                     const updatedSeat = currentCourse.enrolledSeats + 1;
+//                     const updatedSeatValue = [updatedSeat];
+//
+//                     db.query(updateCommand, updatedSeatValue, (err, results) => {
+//
+//                       if (err) {
+//                         console.error("Error enrolling student:", err);
+//                         res.status(500).send({ error: "Internal Server Error" });
+//                       } else {
+//                         res.status(200).send({ message: "Enrolled successfully" });
+//                       }
+//                     });
+//                     // res.status(200).send({ message: "Enrolled successfully" });
+//                   }
+//                 });
+//               } else {
+//                 // cannot enroll. Seat limit exceeded
+//                 res.status(400).send({
+//                   message: "Seat limit exceeded"
+//                 });
+//               }
+//
+//             } else {
+//               console.error("Error finding enrolled course for the student:", currentCourse);
+//               res.status(500).send({ error: "Internal Server Error" });
+//             }
+//           }
+//         });
+//       }
+//     }
+//   });
+// });
 
-  console.log(`ENROLL ${userID}`);
-  // check whether course exist or not
+// Add course
+router.post("/", courseController.addCourse)
 
-  const findEnrollment = "SELECT * FROM enrollment WHERE user_id = ?";
-  const value = [userID];
+// Update course
+router.put("/", courseController.updateCourse)
 
-  db.query(findEnrollment, value, (err, results) => {
-    if (err) {
-      // If there's an error, send the error as the response
-      res.status(500).send(err);
-    } else {
-      // If successful, send the results as JSON response
-      res.status(200).json(results);
-    }
-  });
-});
+// Get enrolled courses
+router.get("/enroll", courseController.getEnrollCourse)
 
-router.post("/enroll", (req, res) => {
-  const { userID, courseID } = req.body;
+// Enroll course
 
-  const findEnrolledCourse = "SELECT * FROM enrollment WHERE course_id = ? && user_id = ?";
+router.post("/enroll", courseController.enrollCourse)
 
-  const values = [courseID, userID];
+// Get courses
 
-  db.query(findEnrolledCourse, values, (err, results) => {
-    if (err) {
-      // If there's an error, send the error as the response
-      console.error("Error finding enrolled course for the student:", err);
-      res.status(500).send({ error: "Internal Server Error" });
-    } else {
-      // If successful, check length count. If length count > 0 means user is already enrolled
-      // So it will not add the data in enrollment table
+router.get("/", courseController.allCourses)
 
-      if (results.length > 0) {
-        // Exists
-        res.status(400).send({
-          message: "You are already enrolled"
-        });
-      } else {
+// Delete course
 
-        const enrolledSeatsSql = "SELECT enrolledSeats, seatLimit FROM courses WHERE id = ?"
-        const enrolledCourseIDValue = [courseID]
-
-        db.query(enrolledSeatsSql, enrolledCourseIDValue, (err, results) => {
-          if (err) {
-            // If there's an error, send the error as the response
-            console.error("Error finding enrolled course for the student:", err);
-            res.status(500).send({ error: "Internal Server Error" });
-          } else {
-            // // If successful, send the results as JSON response
-            // res.status(200).json(results);
-            const currentCourse = results[0];
-            if (currentCourse) {
-              if (currentCourse.seatLimit > currentCourse.enrolledSeats) {
-                // can enroll
-                const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
-
-                // Execute the SQL query
-                db.query(insertSqlCommand, values, (err, results) => {
-                  if (err) {
-                    console.error("Error enrolling student:", err);
-                    res.status(500).send({ error: "Internal Server Error" });
-                  } else {
-                    // TODO: If enroll is successful then increase enrolledSeats
-                    const updateCommand = "UPDATE courses SET enrolledSeats = ? ";
-                    const updatedSeat = currentCourse.enrolledSeats + 1;
-                    const updatedSeatValue = [updatedSeat];
-
-                    db.query(updateCommand, updatedSeatValue, (err, results) => {
-
-                      if (err) {
-                        console.error("Error enrolling student:", err);
-                        res.status(500).send({ error: "Internal Server Error" });
-                      } else {
-                        res.status(200).send({ message: "Enrolled successfully" });
-                      }
-                    });
-                    // res.status(200).send({ message: "Enrolled successfully" });
-                  }
-                });
-              } else {
-                // cannot enroll. Seat limit exceeded
-                res.status(400).send({
-                  message: "Seat limit exceeded"
-                });
-              }
-
-            } else {
-              console.error("Error finding enrolled course for the student:", currentCourse);
-              res.status(500).send({ error: "Internal Server Error" });
-            }
-          }
-        });
-
-        // TODO: Check whether seat exists in the courses table
-        // const insertSqlCommand = "INSERT INTO enrollment (course_id, user_id) VALUES (?,?)";
-        //
-        // // Execute the SQL query
-        // db.query(insertSqlCommand, values, (err, results) => {
-        //   if (err) {
-        //     console.error("Error enrolling student:", err);
-        //     res.status(500).send({ error: "Internal Server Error" });
-        //   } else {
-        //     // TODO: If enroll is successful then reduce seatCount
-        //     res.status(200).send({ message: "Enrolled successfully" });
-        //   }
-        // });
-      }
-    }
-  });
-});
+router.delete("/", courseController.deleteCourse)
 
 module.exports = router
