@@ -1,27 +1,57 @@
----In the first terminal
+# Getting started
 
-$ cd client
+## Installation
 
-$ npm install (to install client-side dependencies)
+Install client_v2
 
-$ npm run dev(to start the client)
+```bash
+  cd React/client_v2/
+  npm i
+  npm run dev
+```
 
----In the second terminal
+Install updated_server_v3
 
-$ cd server
+```bash
+  cd React/updated_server_v3/
+  npm i
+  npm run start_dev
+```
 
-$ npm install (to install server-side dependencies)
+## Authors
 
-$ npm start (to start the server)
+- [@faizabinte2000](https://github.com/faizabinte2000)
+- [@SamihaZamangithub](https://github.com/SamihaZamangithub)
+- [@mahbubalgazi](https://github.com/mahbubalgazi)
+- [@Ahtesham-Ibne-Mostafa](https://github.com/Ahtesham-Ibne-Mostafa)
 
-![Sign in Page was made by Samiha Zaman](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/1.png)Sign in Page was made by Samiha Zaman
-![Sign up Register Page was made by Mahbub Al Gazi](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/2.png)Sign up Register Page was made by Mahbub Al Gazi
-![Main Dashboard was made by Ahtesham Ibne Mostafa](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/3.png)Main Dashboard was made by Ahtesham Ibne Mostafa
-![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/4.png)Server Database was made by Faiza Binte Arif
+## Work contributions
 
-![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/5.png)
-![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/6.png)
-![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/7.png)
-![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/8.png)
-![Server Database was made by Faiza Binte Arif](https://github.com/Ahtesham-Ibne-Mostafa/University_Students_Information_and_Communication_System/blob/main/React/client_v2/src/Assets/9.png)
+### Faiza
+1. Admit will be able to add or delete courses
+![Add course](screenshots/faiza/add-course.png)Add course
 
+![Delete course](screenshots/faiza/delete-course.png)Delete course
+
+
+2. Admin or faculties can post in the forum.(By Me and Samiha)
+
+![Admin or faculties posting in the forum](screenshots/faiza/posting-in-the-forum.png)Admin or faculties posting in the forum
+
+![Posts by admin](screenshots/faiza/posts-by-admin.png)Posts by admin
+
+3. Arranging the code following MVC architecture
+
+![Before](screenshots/faiza/before-refactor.png)Before
+
+![After](screenshots/faiza/after-refactor.png)After
+
+### Samiha
+1. Donors will be able to add their information and it will be updated in the database
+![Donation panel](screenshots/samiha/donor-panel.png)Donation panel
+
+2. Students will be able to enroll in courses and it will be updated in database
+![Enroll](screenshots/samiha/enroll-course.png)Enroll
+
+3. Students will be able to post in the forum
+![Post Forum](screenshots/samiha/post-forum.png)Post Forum
