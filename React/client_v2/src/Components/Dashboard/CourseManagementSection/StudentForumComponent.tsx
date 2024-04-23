@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiOutlineSwapRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import UserInfo from "../UserInfo";
 
 interface Forum {
   id: number;
@@ -11,6 +12,18 @@ interface Forum {
 }
 
 function StudentForumComponent() {
+  const userInfoString = localStorage.getItem("userInfo");
+  let userInfo: UserInfo;
+
+  if (userInfoString) {
+    console.log(`USERINFOString IS ${userInfoString}`);
+    userInfo = JSON.parse(userInfoString);
+    console.log(`USERINFO IS ${userInfo.id}`);
+  } else {
+    console.log("FAILED TO RETRIEVE");
+    return <h1> You are not logged in </h1>;
+  }
+
   const [forums, setForums] = useState<Forum[]>([]);
 
   // Comment and Reply comment state
@@ -20,6 +33,7 @@ function StudentForumComponent() {
   const [replyingCommentId, setReplyingCommentId] = useState<number | null>(
     null
   );
+  const userId = userInfo.id;
 
   const fetchData = async () => {
     try {
@@ -34,7 +48,7 @@ function StudentForumComponent() {
   const handleCommentSubmit = async (postId: number) => {
     try {
       await axios.post(`http://localhost:3002/forum/${postId}/comments`, {
-        userId: 1, // Replace with actual user ID
+        userId,
         commentText,
       });
       // Refresh forums after successful comment submission
@@ -52,7 +66,7 @@ function StudentForumComponent() {
       await axios.post(
         `http://localhost:3002/forum/${postId}/comments/${commentId}/replies`,
         {
-          userId: 1, // Replace with actual user ID
+          userId,
           replyText,
         }
       );
