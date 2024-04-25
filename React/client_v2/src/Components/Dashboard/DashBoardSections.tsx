@@ -1,7 +1,5 @@
 enum DashBoardSections {
-    Department,
-    Session,
-    Semester,
+    Home,
     StudentForum,
     BloodDonation,
     SearchDonar,
