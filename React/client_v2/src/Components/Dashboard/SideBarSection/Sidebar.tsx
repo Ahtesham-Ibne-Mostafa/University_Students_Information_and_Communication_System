@@ -33,13 +33,13 @@ const Sidebar = ({ sideBarOnClicked, selectedSection }: Props) => {
                             }}
                         >
                             <SideBarListTitle
-                                title={"Department"}
+                                title={"Home"}
                                 isSelected={selectedSection === DashBoardSections.Department}
                             />
                         </a>
                     </li>
 
-                    <li className="listItem">
+                    {/* <li className="listItem">
                         <a
                             href="#"
                             className="menuLink flex"
@@ -67,7 +67,7 @@ const Sidebar = ({ sideBarOnClicked, selectedSection }: Props) => {
                                 isSelected={selectedSection === DashBoardSections.Semester}
                             />
                         </a>
-                    </li>
+                    </li> */}
 
                     <li className="listItem">
                         <a
