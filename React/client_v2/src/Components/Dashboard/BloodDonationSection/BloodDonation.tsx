@@ -5,6 +5,7 @@ function BloodDonation() {
 
     const [name, setFullName] = useState("")
     const [bloodGroup, setBloodGroup] = useState("")
+    const [studentID, setStudentID] = useState("")
     const [contactNo, setContactNo] = useState("")
     const [email, setEmail] = useState("")
     const [houseAddress, setHouseAddress] = useState("")
@@ -34,6 +35,7 @@ function BloodDonation() {
             // reset everything
             setFullName("")
             setBloodGroup("")
+            setStudentID("")
             setContactNo("")
             setEmail("")
             setHouseAddress("")
@@ -44,18 +46,15 @@ function BloodDonation() {
 
     const createDonor = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        console.log(name, bloodGroup, contactNo, email, houseAddress);
-
         axios.post('http://localhost:3002/donate-blood', {
             fullName: name,
             bloodGroup: bloodGroup,
+            studentID: studentID,
             contactNo: contactNo,
             emailAddress: email,
             address: houseAddress,
 
         }).then((response) => {
-
-            console.log(response);
             if (response.data.code === 200) {
                 console.log("Added successfully");
                 setSuccessStatus(true)
@@ -83,6 +82,12 @@ function BloodDonation() {
                 <label className="form-label">Blood group</label>
                 <input type="text" placeholder="Blood group" value={bloodGroup} className="form-control"
                     onChange={(event) => setBloodGroup(event.target.value)}
+                />
+
+                {/* Student ID */}
+                <label className="form-label">Student ID</label>
+                <input type="text" placeholder="Student ID" value={studentID} className="form-control"
+                    onChange={(event) => setStudentID(event.target.value)}
                 />
 
 
