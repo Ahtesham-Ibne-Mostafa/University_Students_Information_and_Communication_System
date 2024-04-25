@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 import Dashboard from './Components/Dashboard/Dashboard';
+import Dashboard1 from './Components/Dashboard/Dashboard1';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <div><Dashboard /></div>
+  },
+  {
+    path: '/dashboard1',
+    element: <div><Dashboard1 /></div>
   },
   {
     path: '/dashboard/add-course',

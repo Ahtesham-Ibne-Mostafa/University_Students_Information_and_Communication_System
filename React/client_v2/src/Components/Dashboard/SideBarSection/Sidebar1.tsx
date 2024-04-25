@@ -120,7 +120,7 @@ const Sidebar = ({ sideBarOnClicked, selectedSection }: Props) => {
                             }}
                         >
                             <SideBarListTitle
-                                title={"Course Directory"}
+                                title={"Course management"}
                                 isSelected={selectedSection === DashBoardSections.CourseManagement}
                             />
                         </a>

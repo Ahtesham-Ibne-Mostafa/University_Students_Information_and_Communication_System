@@ -54,21 +54,27 @@ const Login = () => {
     }
 
     useEffect(() => {
-
         const userInfoString = localStorage.getItem('userInfo');
-
-        // if user exists in the session navigate to the dashboard
+    
         if (userInfoString) {
-            navigateTo('/dashboard')
+            const userInfo = JSON.parse(userInfoString);
+    
+            // Check if user is an admin
+            if (userInfo.isAdmin) {
+                navigateTo('/dashboard1'); // Navigate to admin dashboard
+            } else {
+                navigateTo('/dashboard'); // Navigate to user dashboard
+            }
         }
-
+    
         if (loginStatus !== '') {
-            setStatusHolder('showMessage')
+            setStatusHolder('showMessage');
             setTimeout(() => {
-                setStatusHolder('message')
+                setStatusHolder('message');
             }, 2000);
         }
-    }, [loginStatus])
+    }, [loginStatus]);
+    
 
     const onSubmit = () => {
         setLoginUserName('')
@@ -123,7 +129,7 @@ const Login = () => {
                         </button>
 
                         <span className="forgotPassword">
-                            Forgot your password? <a href="">Click Here</a>
+                            
                         </span>
 
                     </form>
