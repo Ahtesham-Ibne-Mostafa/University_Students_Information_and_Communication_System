@@ -44,6 +44,8 @@ function BloodDonation() {
 
     const createDonor = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
+        console.log(name, bloodGroup, contactNo, email, houseAddress);
+
         axios.post('http://localhost:3002/donate-blood', {
             fullName: name,
             bloodGroup: bloodGroup,
@@ -52,6 +54,8 @@ function BloodDonation() {
             address: houseAddress,
 
         }).then((response) => {
+
+            console.log(response);
             if (response.data.code === 200) {
                 console.log("Added successfully");
                 setSuccessStatus(true)
