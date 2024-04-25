@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2024 at 07:15 PM
+-- Generation Time: Apr 25, 2024 at 06:37 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -87,7 +87,8 @@ CREATE TABLE `donation` (
 
 INSERT INTO `donation` (`id`, `name`, `blood_group`, `student_id`, `contact_no`, `email_address`, `house_address`) VALUES
 (4, 's', 'b', '34556', '678', '78995', 'moh'),
-(5, 'so', '0', '4567', '678', 'hfhjf', 'mpbhdbhdg');
+(5, 'so', '0', '4567', '678', 'hfhjf', 'mpbhdbhdg'),
+(7, 'dfghdfg', 'O+', 'fghhfg', 'fghhfg', 'fgfghfg', 'fghfghfgh');
 
 -- --------------------------------------------------------
 
@@ -127,12 +128,10 @@ CREATE TABLE `forum` (
 --
 
 INSERT INTO `forum` (`id`, `user_id`, `post_title`, `post_details`) VALUES
-(1, 8, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.'),
-(2, 8, 'LAAAAA LAAA is simply dummy text of the printing and typesetting industry.', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.'),
-(3, 8, 'LAAAAA LAAA is simply dummy text of the printing and typesetting industry.', 'That to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.'),
 (4, 4, 'Kalke class hobe na', 'Karon shobar ghum dorkar'),
 (5, 4, 'Kalke tomader hobe', 'Tomra pass korte parba?'),
-(7, 8, 'TARC', 'TARC er akash shei');
+(7, 8, 'TARC', 'TARC er akash shei'),
+(8, 4, 'sgddfs', 'dfgdfg');
 
 -- --------------------------------------------------------
 
@@ -248,7 +247,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `donation`
 --
 ALTER TABLE `donation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `enrollment`
@@ -260,7 +259,7 @@ ALTER TABLE `enrollment`
 -- AUTO_INCREMENT for table `forum`
 --
 ALTER TABLE `forum`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `replies`
